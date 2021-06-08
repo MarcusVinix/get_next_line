@@ -6,7 +6,7 @@
 /*   By: mavinici <mavinici@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 11:24:44 by marcus            #+#    #+#             */
-/*   Updated: 2021/06/08 20:10:30 by mavinici         ###   ########.fr       */
+/*   Updated: 2021/06/08 20:18:50 by mavinici         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int			get_next_line(int fd, char **line)
 	ssize_t		size;
 	char		*tmp;
 
-	if (fd < 0 || !line)
+	if (fd < 0 || !line || BUFFER_SIZE <= 0)
 		return (-1);//error
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char *));
 	if (!buffer)
