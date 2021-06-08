@@ -6,7 +6,7 @@
 /*   By: mavinici <mavinici@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 11:24:44 by marcus            #+#    #+#             */
-/*   Updated: 2021/06/08 18:10:20 by mavinici         ###   ########.fr       */
+/*   Updated: 2021/06/08 20:10:30 by mavinici         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int add_line(char **str, char **line)
 	char	*tmp;
 
 	size = 0;
-	while ((*str)[size] != '\n')
+	while ((*str)[size] != '\n' && (*str)[size])
 		size++;
 	if ((*str)[size] == '\0')
 	{
@@ -57,13 +57,16 @@ static int	output(char **str, char **line, ssize_t size)
 
 int			get_next_line(int fd, char **line)
 {
-	char		buffer[BUFFER_SIZE + 1];
+	char		*buffer;
 	static char	*str;
 	ssize_t		size;
 	char		*tmp;
 
 	if (fd < 0 || !line)
 		return (-1);//error
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char *));
+	if (!buffer)
+		return (-1);
 	size = read(fd, buffer, BUFFER_SIZE);
 	while (size > 0)
 	{
