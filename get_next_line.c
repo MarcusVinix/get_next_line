@@ -6,20 +6,11 @@
 /*   By: mavinici <mavinici@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 11:24:44 by marcus            #+#    #+#             */
-/*   Updated: 2021/06/09 14:50:35 by mavinici         ###   ########.fr       */
+/*   Updated: 2021/06/09 15:01:28 by mavinici         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-static void	clear(char **str)
-{
-	if (*str != NULL)
-	{
-		free(*str);
-		*str = NULL;
-	}
-}
 
 static char	*ft_strchr(const char *s, int c)
 {
@@ -53,7 +44,11 @@ static int	add_line(char **str, char **line)
 	if ((*str)[size] == '\0')
 	{
 		*line = ft_strdup(*str);
-		clear(str);
+		if (*str != NULL)
+		{
+			free(*str);
+			*str = NULL;
+		}
 		return (0);
 	}
 	*line = ft_substr(*str, 0, size);
@@ -75,7 +70,7 @@ static int	output(char **str, char **line, ssize_t size)
 	return (add_line(str, line));
 }
 
-char	*check(int fd, char **line)
+static char	*check(int fd, char **line)
 {
 	char	*buffer;
 
@@ -92,8 +87,8 @@ int	get_next_line(int fd, char **line)
 	char		*buffer;
 	static char	*str;
 	ssize_t		size;
-	
-    buffer = check(fd, line);
+
+	buffer = check(fd, line);
 	if (!buffer)
 		return (-1);
 	size = read(fd, buffer, BUFFER_SIZE);

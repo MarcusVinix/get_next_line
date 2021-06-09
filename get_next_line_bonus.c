@@ -6,20 +6,11 @@
 /*   By: mavinici <mavinici@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 11:24:44 by marcus            #+#    #+#             */
-/*   Updated: 2021/06/09 09:58:40 by mavinici         ###   ########.fr       */
+/*   Updated: 2021/06/09 15:12:19 by mavinici         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-
-static void	clear(char **str)
-{
-	if (*str != NULL)
-	{
-		free(*str);
-		*str = NULL;
-	}
-}
 
 static char	*ft_strchr(const char *s, int c)
 {
@@ -53,7 +44,11 @@ static int	add_line(char **str, char **line)
 	if ((*str)[size] == '\0')
 	{
 		*line = ft_strdup(*str);
-		clear(str);
+		if (*str != NULL)
+		{
+			free(*str);
+			*str = NULL;
+		}
 		return (0);
 	}
 	*line = ft_substr(*str, 0, size);
@@ -75,6 +70,18 @@ static int	output(char **str, char **line, ssize_t size)
 	return (add_line(str, line));
 }
 
+static char	*check(int fd, char **line)
+{
+	char	*buffer;
+
+	if (fd < 0 || !line || BUFFER_SIZE <= 0)
+		return (NULL);
+	buffer = malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+		return (NULL);
+	return (buffer);
+}
+
 int	get_next_line(int fd, char **line)
 {
 	char		buffer[BUFFER_SIZE + 1];
@@ -82,7 +89,8 @@ int	get_next_line(int fd, char **line)
 	ssize_t		size;
 	char		*tmp;
 
-	if (fd < 0 || !line || BUFFER_SIZE <= 0)
+	buffer = check(fd, line);
+	if (!buffer)
 		return (-1);
 	size = read(fd, buffer, BUFFER_SIZE);
 	while (size > 0)
@@ -91,14 +99,11 @@ int	get_next_line(int fd, char **line)
 		if (str[fd] == NULL)
 			str[fd] = ft_strdup(buffer);
 		else
-		{
-			tmp = ft_strjoin(str[fd], buffer);
-			free(str[fd]);
-			str[fd] = tmp;
-		}
+			str[fd] = ft_strjoin(str[fd], buffer);
 		if (ft_strchr(str[fd], '\n'))
 			break ;
 		size = read(fd, buffer, BUFFER_SIZE);
 	}
+	free(buffer);
 	return (output(&str[fd], line, size));
 }
