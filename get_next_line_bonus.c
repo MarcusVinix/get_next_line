@@ -6,7 +6,7 @@
 /*   By: mavinici <mavinici@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 11:24:44 by marcus            #+#    #+#             */
-/*   Updated: 2021/06/09 16:04:38 by mavinici         ###   ########.fr       */
+/*   Updated: 2021/06/09 16:09:10 by mavinici         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int	get_next_line(int fd, char **line)
 	char		*buffer;
 	static char	*str[OPEN_MAX];
 	ssize_t		size;
+	char		*tmp;
 
 	buffer = check(fd, line);
 	if (!buffer)
@@ -98,7 +99,12 @@ int	get_next_line(int fd, char **line)
 		if (str[fd] == NULL)
 			str[fd] = ft_strdup(buffer);
 		else
-			str[fd] = ft_strjoin(str[fd], buffer);
+		{	
+			tmp = ft_strjoin(str[fd], buffer);
+			free(str[fd]);
+			str[fd] = tmp;
+		}
+			
 		if (ft_strchr(str[fd], '\n'))
 			break ;
 		size = read(fd, buffer, BUFFER_SIZE);
