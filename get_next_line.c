@@ -6,12 +6,11 @@
 /*   By: mavinici <mavinici@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 11:24:44 by marcus            #+#    #+#             */
-/*   Updated: 2021/06/08 20:18:50 by mavinici         ###   ########.fr       */
+/*   Updated: 2021/06/08 21:00:03 by mavinici         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
 
 static void	boom(char **str)
 {
@@ -22,7 +21,32 @@ static void	boom(char **str)
 	}
 }
 
-static int add_line(char **str, char **line)
+char	*ft_strchr(const char *s, int c)
+{
+	int		i;
+	int		len;
+	char	*s_s;
+
+	c = (unsigned char)c;
+	s_s = (unsigned char *)s;
+	len = ft_strlen(s);
+	i = 0;
+	while (i < len)
+	{
+		if (s_s[i] == c)
+		{
+			return ((void *)(s_s + i));
+		}
+		i++;
+	}
+	if (s_s[i] == c)
+	{
+		return ((void *)(s_s + i));
+	}
+	return (NULL);
+}
+
+static int	add_line(char **str, char **line)
 {
 	int		size;
 	char	*tmp;
@@ -34,38 +58,35 @@ static int add_line(char **str, char **line)
 	{
 		*line = ft_strdup(*str);
 		boom(str);
-		return (0);//end of file
+		return (0);
 	}
 	*line = ft_substr(*str, 0, size);
 	tmp = ft_strdup((*str) + size + 1);
 	free(*str);
 	*str = tmp;
-	return (1);//new line
+	return (1);
 }
 
 static int	output(char **str, char **line, ssize_t size)
 {
 	if (size == -1)
-		return (-1);//error
+		return (-1);
 	else if (size == 0 && *str == NULL)
 	{
 		*line = ft_strdup("");
-		return (0);//end of file
+		return (0);
 	}
 	return (add_line(str, line));
 }
 
-int			get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
-	char		*buffer;
+	char		buffer[BUFFER_SIZE + 1];
 	static char	*str;
 	ssize_t		size;
 	char		*tmp;
 
 	if (fd < 0 || !line || BUFFER_SIZE <= 0)
-		return (-1);//error
-	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char *));
-	if (!buffer)
 		return (-1);
 	size = read(fd, buffer, BUFFER_SIZE);
 	while (size > 0)
@@ -80,7 +101,7 @@ int			get_next_line(int fd, char **line)
 			str = tmp;
 		}
 		if (ft_strchr(str, '\n'))
-			break;
+			break ;
 		size = read(fd, buffer, BUFFER_SIZE);
 	}
 	return (output(&str, line, size));

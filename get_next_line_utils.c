@@ -22,25 +22,6 @@ size_t	ft_strlen(const char *s)
 	return (len);
 }
 
-char	*ft_strchr(const char *s, int c)
-{
-	unsigned char	*s_u;
-	unsigned char	c_u;
-
-	if (s == NULL)
-		return (NULL);
-	s_u = (unsigned char *)s;
-	c_u = (unsigned char)c;
-	if (*s_u == c_u)
-		return ((char *)s_u);
-	while (*s_u++)
-	{
-		if (*s_u == c_u)
-			return ((char *)s_u);
-	}
-	return (NULL);
-}
-
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	size_t	lens1;
@@ -69,7 +50,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	newstr[lens1] = '\0';
 	return (newstr);
 }
-
 
 char	*ft_strdup(const char *s)
 {
