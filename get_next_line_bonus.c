@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mavinici <mavinici@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 11:24:44 by marcus            #+#    #+#             */
-/*   Updated: 2021/06/09 09:38:52 by mavinici         ###   ########.fr       */
+/*   Updated: 2021/06/09 09:53:15 by mavinici         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static void	clear(char **str)
 {
@@ -78,7 +78,7 @@ static int	output(char **str, char **line, ssize_t size)
 int	get_next_line(int fd, char **line)
 {
 	char		buffer[BUFFER_SIZE + 1];
-	static char	*str;
+	static char	*str[OPEN_MAX];
 	ssize_t		size;
 	char		*tmp;
 
@@ -88,17 +88,17 @@ int	get_next_line(int fd, char **line)
 	while (size > 0)
 	{
 		buffer[size] = '\0';
-		if (str == NULL)
-			str = ft_strdup(buffer);
+		if (str[fd] == NULL)
+			str[fd] = ft_strdup(buffer);
 		else
 		{
-			tmp = ft_strjoin(str, buffer);
-			free(str);
-			str = tmp;
+			tmp = ft_strjoin(str[fd], buffer);
+			free(str[fd]);
+			str[fd] = tmp;
 		}
-		if (ft_strchr(str, '\n'))
+		if (ft_strchr(str[fd], '\n'))
 			break ;
 		size = read(fd, buffer, BUFFER_SIZE);
 	}
-	return (output(&str, line, size));
+	return (output(&str[fd], line, size));
 }
