@@ -6,7 +6,7 @@
 /*   By: mavinici <mavinici@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 11:24:44 by marcus            #+#    #+#             */
-/*   Updated: 2021/06/09 16:09:10 by mavinici         ###   ########.fr       */
+/*   Updated: 2021/06/09 18:43:11 by mavinici         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	add_line(char **str, char **line)
 
 static int	output(char **str, char **line, ssize_t size)
 {
-	if (size < 0)
+	if (size < 0 || !line)
 		return (-1);
 	else if (size == 0 && *str == NULL)
 	{
@@ -70,18 +70,6 @@ static int	output(char **str, char **line, ssize_t size)
 	return (add_line(str, line));
 }
 
-static char	*check(int fd, char **line)
-{
-	char	*buffer;
-
-	if (fd < 0 || !line || BUFFER_SIZE <= 0)
-		return (NULL);
-	buffer = malloc(BUFFER_SIZE + 1);
-	if (!buffer)
-		return (NULL);
-	return (buffer);
-}
-
 int	get_next_line(int fd, char **line)
 {
 	char		*buffer;
@@ -89,7 +77,7 @@ int	get_next_line(int fd, char **line)
 	ssize_t		size;
 	char		*tmp;
 
-	buffer = check(fd, line);
+	buffer = malloc(BUFFER_SIZE + 1);
 	if (!buffer)
 		return (-1);
 	size = read(fd, buffer, BUFFER_SIZE);
@@ -99,12 +87,11 @@ int	get_next_line(int fd, char **line)
 		if (str[fd] == NULL)
 			str[fd] = ft_strdup(buffer);
 		else
-		{	
+		{
 			tmp = ft_strjoin(str[fd], buffer);
 			free(str[fd]);
 			str[fd] = tmp;
 		}
-			
 		if (ft_strchr(str[fd], '\n'))
 			break ;
 		size = read(fd, buffer, BUFFER_SIZE);

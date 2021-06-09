@@ -6,7 +6,7 @@
 /*   By: mavinici <mavinici@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 11:24:44 by marcus            #+#    #+#             */
-/*   Updated: 2021/06/09 15:01:28 by mavinici         ###   ########.fr       */
+/*   Updated: 2021/06/09 18:56:28 by mavinici         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	add_line(char **str, char **line)
 
 static int	output(char **str, char **line, ssize_t size)
 {
-	if (size < 0)
+	if (size < 0 || !line)
 		return (-1);
 	else if (size == 0 && *str == NULL)
 	{
@@ -70,39 +70,30 @@ static int	output(char **str, char **line, ssize_t size)
 	return (add_line(str, line));
 }
 
-static char	*check(int fd, char **line)
-{
-	char	*buffer;
-
-	if (fd < 0 || !line || BUFFER_SIZE <= 0)
-		return (NULL);
-	buffer = malloc(BUFFER_SIZE + 1);
-	if (!buffer)
-		return (NULL);
-	return (buffer);
-}
-
 int	get_next_line(int fd, char **line)
 {
-	char		*buffer;
-	static char	*str;
-	ssize_t		size;
+	static char		*str;
+	t_var			var;
 
-	buffer = check(fd, line);
-	if (!buffer)
+	var.buffer = malloc(BUFFER_SIZE + 1);
+	if (!var.buffer)
 		return (-1);
-	size = read(fd, buffer, BUFFER_SIZE);
-	while (size > 0)
+	var.size = read(fd, var.buffer, BUFFER_SIZE);
+	while (var.size > 0)
 	{
-		buffer[size] = '\0';
+		var.buffer[var.size] = '\0';
 		if (str == NULL)
-			str = ft_strdup(buffer);
+			str = ft_strdup(var.buffer);
 		else
-			str = ft_strjoin(str, buffer);
+		{
+			var.tmp = ft_strjoin(str, var.buffer);
+			free(str);
+			str = var.tmp;
+		}
 		if (ft_strchr(str, '\n'))
 			break ;
-		size = read(fd, buffer, BUFFER_SIZE);
+		var.size = read(fd, var.buffer, BUFFER_SIZE);
 	}
-	free(buffer);
-	return (output(&str, line, size));
+	free(var.buffer);
+	return (output(&str, line, var.size));
 }
