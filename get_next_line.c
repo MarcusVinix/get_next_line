@@ -6,13 +6,13 @@
 /*   By: mavinici <mavinici@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 11:24:44 by marcus            #+#    #+#             */
-/*   Updated: 2021/06/08 21:00:03 by mavinici         ###   ########.fr       */
+/*   Updated: 2021/06/08 21:34:25 by mavinici         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static void	boom(char **str)
+static void	clear(char **str)
 {
 	if (*str != NULL)
 	{
@@ -21,7 +21,7 @@ static void	boom(char **str)
 	}
 }
 
-char	*ft_strchr(const char *s, int c)
+static char	*ft_strchr(const char *s, int c)
 {
 	int		i;
 	int		len;
@@ -57,7 +57,7 @@ static int	add_line(char **str, char **line)
 	if ((*str)[size] == '\0')
 	{
 		*line = ft_strdup(*str);
-		boom(str);
+		clear(str);
 		return (0);
 	}
 	*line = ft_substr(*str, 0, size);
