@@ -5,7 +5,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-# define FD_SIZE 4096
+# define FD_SIZE 1048
 # define OPEN_MAX 256
 
 int		get_next_line(int fd, char **line);
