@@ -6,7 +6,7 @@
 /*   By: mavinici <mavinici@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 11:24:44 by marcus            #+#    #+#             */
-/*   Updated: 2021/06/09 09:38:52 by mavinici         ###   ########.fr       */
+/*   Updated: 2021/06/09 09:58:25 by mavinici         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static void	clear(char **str)
 
 static char	*ft_strchr(const char *s, int c)
 {
-	int		i;
-	int		len;
+	int				i;
+	int				len;
 	unsigned char	*s_s;
 
 	c = (unsigned char)c;
