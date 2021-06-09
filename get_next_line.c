@@ -6,7 +6,7 @@
 /*   By: mavinici <mavinici@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 11:24:44 by marcus            #+#    #+#             */
-/*   Updated: 2021/06/09 13:48:31 by mavinici         ###   ########.fr       */
+/*   Updated: 2021/06/09 14:48:31 by mavinici         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,23 @@ static int	output(char **str, char **line, ssize_t size)
 	return (add_line(str, line));
 }
 
+char	*check(int fd, char **line, char *buffer)
+{
+	if (fd < 0 || !line || BUFFER_SIZE <= 0)
+		return (NULL);
+	buffer = malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+		return (NULL);
+	return (buffer);
+}
+
 int	get_next_line(int fd, char **line)
 {
 	char		*buffer;
 	static char	*str;
 	ssize_t		size;
-	char		*tmp;
-
 	
-	if (fd < 0 || !line || BUFFER_SIZE <= 0)
-		return (-1);
-	buffer = malloc(BUFFER_SIZE + 1);
+    buffer = check(fd, line, buffer);
 	if (!buffer)
 		return (-1);
 	size = read(fd, buffer, BUFFER_SIZE);
@@ -95,11 +101,7 @@ int	get_next_line(int fd, char **line)
 		if (str == NULL)
 			str = ft_strdup(buffer);
 		else
-		{
-			tmp = ft_strjoin(str, buffer);
-			free(str);
-			str = tmp;
-		}
+			str = ft_strjoin(str, buffer);
 		if (ft_strchr(str, '\n'))
 			break ;
 		size = read(fd, buffer, BUFFER_SIZE);
