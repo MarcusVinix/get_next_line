@@ -6,7 +6,7 @@
 /*   By: mavinici <mavinici@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 11:24:44 by marcus            #+#    #+#             */
-/*   Updated: 2021/06/08 23:03:22 by mavinici         ###   ########.fr       */
+/*   Updated: 2021/06/08 23:09:17 by mavinici         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,11 @@ static char	*ft_strchr(const char *s, int c)
 	while (i < len)
 	{
 		if (s_s[i] == c)
-		{
 			return ((void *)(s_s + i));
-		}
 		i++;
 	}
 	if (s_s[i] == c)
-	{
 		return ((void *)(s_s + i));
-	}
 	return (NULL);
 }
 
