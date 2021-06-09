@@ -6,7 +6,7 @@
 /*   By: mavinici <mavinici@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 11:24:44 by marcus            #+#    #+#             */
-/*   Updated: 2021/06/09 13:38:21 by mavinici         ###   ########.fr       */
+/*   Updated: 2021/06/09 13:48:31 by mavinici         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,16 @@ static int	output(char **str, char **line, ssize_t size)
 
 int	get_next_line(int fd, char **line)
 {
-	char		buffer[BUFFER_SIZE + 1];
+	char		*buffer;
 	static char	*str;
 	ssize_t		size;
 	char		*tmp;
 
 	
 	if (fd < 0 || !line || BUFFER_SIZE <= 0)
+		return (-1);
+	buffer = malloc(BUFFER_SIZE + 1);
+	if (!buffer)
 		return (-1);
 	size = read(fd, buffer, BUFFER_SIZE);
 	while (size > 0)
@@ -101,5 +104,6 @@ int	get_next_line(int fd, char **line)
 			break ;
 		size = read(fd, buffer, BUFFER_SIZE);
 	}
+	free(buffer);
 	return (output(&str, line, size));
 }
