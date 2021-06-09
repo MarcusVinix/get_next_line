@@ -6,7 +6,7 @@
 /*   By: mavinici <mavinici@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 11:24:44 by marcus            #+#    #+#             */
-/*   Updated: 2021/06/08 21:34:25 by mavinici         ###   ########.fr       */
+/*   Updated: 2021/06/08 21:42:44 by mavinici         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*ft_strchr(const char *s, int c)
 {
 	int		i;
 	int		len;
-	char	*s_s;
+	unsigned char	*s_s;
 
 	c = (unsigned char)c;
 	s_s = (unsigned char *)s;
