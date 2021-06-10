@@ -6,7 +6,7 @@
 /*   By: mavinici <mavinici@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 11:24:44 by marcus            #+#    #+#             */
-/*   Updated: 2021/06/09 18:56:28 by mavinici         ###   ########.fr       */
+/*   Updated: 2021/06/09 21:20:41 by mavinici         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	get_next_line(int fd, char **line)
 			free(str);
 			str = var.tmp;
 		}
-		if (ft_strchr(str, '\n'))
+		if (ft_strchr(str, "\n \0"))
 			break ;
 		var.size = read(fd, var.buffer, BUFFER_SIZE);
 	}
