@@ -6,7 +6,7 @@
 /*   By: mavinici <mavinici@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 11:24:44 by marcus            #+#    #+#             */
-/*   Updated: 2021/06/09 18:43:11 by mavinici         ###   ########.fr       */
+/*   Updated: 2021/06/10 19:56:15 by mavinici         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,30 +72,28 @@ static int	output(char **str, char **line, ssize_t size)
 
 int	get_next_line(int fd, char **line)
 {
-	char		*buffer;
 	static char	*str[OPEN_MAX];
-	ssize_t		size;
-	char		*tmp;
+	t_var		var;
 
-	buffer = malloc(BUFFER_SIZE + 1);
-	if (!buffer)
+	var.buffer = malloc(BUFFER_SIZE + 1);
+	if (!var.buffer)
 		return (-1);
-	size = read(fd, buffer, BUFFER_SIZE);
-	while (size > 0)
+	var.size = read(fd, var.buffer, BUFFER_SIZE);
+	while (var.size > 0)
 	{
-		buffer[size] = '\0';
+		var.buffer[var.size] = '\0';
 		if (str[fd] == NULL)
-			str[fd] = ft_strdup(buffer);
+			str[fd] = ft_strdup(var.buffer);
 		else
 		{
-			tmp = ft_strjoin(str[fd], buffer);
+			var.tmp = ft_strjoin(str[fd], var.buffer);
 			free(str[fd]);
-			str[fd] = tmp;
+			str[fd] = var.tmp;
 		}
 		if (ft_strchr(str[fd], '\n'))
 			break ;
-		size = read(fd, buffer, BUFFER_SIZE);
+		var.size = read(fd, var.buffer, BUFFER_SIZE);
 	}
-	free(buffer);
-	return (output(&str[fd], line, size));
+	free(var.buffer);
+	return (output(&str[fd], line, var.size));
 }
