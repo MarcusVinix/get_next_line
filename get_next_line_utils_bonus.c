@@ -71,7 +71,7 @@ char	*ft_strchr(const char *s, int c)
 	s_s = (unsigned char *)s;
 	s_c = (unsigned char)c;
 	if (*s_s == s_c)
-		return ((char * )s);
+		return ((char *)s);
 	while (*s_s++)
 	{
 		if (*s_s == s_c)
