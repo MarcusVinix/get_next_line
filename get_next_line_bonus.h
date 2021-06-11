@@ -5,7 +5,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-# define FD_SIZE 1048
 # define OPEN_MAX 256
 
 typedef struct s_gnl
