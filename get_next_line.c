@@ -6,32 +6,11 @@
 /*   By: mavinici <mavinici@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 11:24:44 by marcus            #+#    #+#             */
-/*   Updated: 2021/06/11 14:47:08 by mavinici         ###   ########.fr       */
+/*   Updated: 2021/06/11 18:14:35 by mavinici         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-static char	*ft_strchr(const char *s, int c)
-{
-	int				i;
-	int				len;
-	unsigned char	*s_s;
-
-	c = (unsigned char)c;
-	s_s = (unsigned char *)s;
-	len = ft_strlen(s);
-	i = 0;
-	while (i < len)
-	{
-		if (s_s[i] == c)
-			return ((void *)(s_s + i));
-		i++;
-	}
-	if (s_s[i] == c)
-		return ((void *)(s_s + i));
-	return (NULL);
-}
 
 static int	add_line(char **str, char **line)
 {
@@ -51,7 +30,7 @@ static int	add_line(char **str, char **line)
 		}
 		return (0);
 	}
-	*line = ft_substr(*str, 0, size);
+	*line = ft_line(*str, size);
 	tmp = ft_strdup((*str) + size + 1);
 	free(*str);
 	*str = tmp;

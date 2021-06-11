@@ -71,37 +71,41 @@ char	*ft_strdup(const char *s)
 	return (new_str);
 }
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+char	*ft_strchr(const char *s, int c)
 {
-	size_t	i;
+	int				i;
+	int				len;
+	unsigned char	*s_s;
 
-	if (size == 0)
-		return (ft_strlen(src));
+	c = (unsigned char)c;
+	s_s = (unsigned char *)s;
+	len = ft_strlen(s);
 	i = 0;
-	while ((i < (size - 1)) && src[i])
+	while (i < len)
 	{
-		dst[i] = src[i];
+		if (s_s[i] == c)
+			return ((void *)(s_s + i));
 		i++;
 	}
-	dst[i] = '\0';
-	return (ft_strlen(src));
+	if (s_s[i] == c)
+		return ((void *)(s_s + i));
+	return (NULL);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_line(char *s, size_t len)
 {
-	char			*substr;
+	char			*line;
 	size_t			i;
 
-	if (s == NULL)
+	line = malloc(len + 1);
+	if (!line)
 		return (NULL);
-	if ((unsigned int)ft_strlen(s) < start)
-		return (ft_strdup(""));
-	i = ft_strlen(s + start);
-	if (i < len)
-		len = i;
-	substr = (char *)malloc(sizeof(char) * (len + 1));
-	if (substr == NULL)
-		return (NULL);
-	ft_strlcpy(substr, s + start, len + 1);
-	return (substr);
+	i = 0;
+	while (i < len)
+	{
+		line[i] = s[i];
+		i++;
+	}
+	line[i] = '\0';
+	return (line);
 }

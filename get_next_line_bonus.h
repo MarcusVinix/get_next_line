@@ -15,8 +15,8 @@ typedef struct s_gnl
 }	t_var;
 
 int		get_next_line(int fd, char **line);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+char	*ft_line(char *s, size_t len);
+char	*ft_strchr(const char *s, int c);
 size_t	ft_strlen(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strdup(const char *s);
