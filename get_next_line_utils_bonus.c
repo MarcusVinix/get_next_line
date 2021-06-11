@@ -24,30 +24,22 @@ size_t	ft_strlen(const char *s)
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	size_t	lens1;
+	size_t	total;
 	size_t	i;
 	char	*newstr;
 
 	if (!s1 || !s2)
 		return (NULL);
-	lens1 = ft_strlen(s1);
-	newstr = (char *)malloc((ft_strlen(s1) + ft_strlen(s2)) + 1);
-	if (newstr == NULL)
+	i = 0;
+	total = ft_strlen(s1) + ft_strlen(s2);
+	newstr = (char *)malloc(sizeof(char) * (total + 1));
+	if (!newstr)
 		return (NULL);
-	i = 0;
-	while (i < lens1)
-	{
-		newstr[i] = s1[i];
-		i++;
-	}
-	i = 0;
-	while (lens1 < (ft_strlen(s1) + ft_strlen(s2)))
-	{
-		newstr[lens1] = s2[i];
-		i++;
-		lens1++;
-	}
-	newstr[lens1] = '\0';
+	while (*s1)
+		newstr[i++] = *s1++;
+	while (*s2)
+		newstr[i++] = *s2++;
+	newstr[i] = '\0';
 	return (newstr);
 }
 
@@ -73,22 +65,18 @@ char	*ft_strdup(const char *s)
 
 char	*ft_strchr(const char *s, int c)
 {
-	int				i;
-	int				len;
 	unsigned char	*s_s;
+	unsigned char	s_c;
 
-	c = (unsigned char)c;
 	s_s = (unsigned char *)s;
-	len = ft_strlen(s);
-	i = 0;
-	while (i < len)
+	s_c = (unsigned char)c;
+	if (*s_s == s_c)
+		return ((char * )s);
+	while (*s_s++)
 	{
-		if (s_s[i] == c)
-			return ((void *)(s_s + i));
-		i++;
+		if (*s_s == s_c)
+			return ((char *)s_s);
 	}
-	if (s_s[i] == c)
-		return ((void *)(s_s + i));
 	return (NULL);
 }
 
