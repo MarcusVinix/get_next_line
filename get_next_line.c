@@ -6,7 +6,7 @@
 /*   By: mavinici <mavinici@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 11:24:44 by marcus            #+#    #+#             */
-/*   Updated: 2021/06/11 11:11:22 by mavinici         ###   ########.fr       */
+/*   Updated: 2021/06/11 14:47:08 by mavinici         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,7 @@ static int	add_line(char **str, char **line)
 
 static int	output(char **str, char **line, ssize_t size)
 {
-	if (size < 0 || !line)
-		return (-1);
-	else if (BUFFER_SIZE <= 0)
+	if (size < 0 || !line || BUFFER_SIZE <= 0)
 		return (-1);
 	else if (size == 0 && *str == NULL)
 	{
