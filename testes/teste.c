@@ -17,6 +17,7 @@ int	main(void)
 		free(line);
 		i = get_next_line(fd1, &line);
 	}
+	printf("%s\n", line);
 	free(line);
 	close(fd1);
 	return (0);
