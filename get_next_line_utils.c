@@ -63,21 +63,24 @@ char	*ft_strdup(const char *s)
 	return (new_str);
 }
 
-char	*ft_strchr(const char *s, int c)
+int	ft_strchr(const char *s, int c)
 {
 	unsigned char	*s_s;
 	unsigned char	s_c;
+	int				i;
 
 	s_s = (unsigned char *)s;
 	s_c = (unsigned char)c;
+	i = 0;
 	if (*s_s == s_c)
-		return ((char *)s);
-	while (*s_s++)
+		return (i);
+	while (s_s[i])
 	{
-		if (*s_s == s_c)
-			return ((char *)s_s);
+		if (s_s[i] == s_c)
+			return (i);
+		i++;
 	}
-	return (NULL);
+	return (-1);
 }
 
 char	*ft_line(char *s, size_t len)

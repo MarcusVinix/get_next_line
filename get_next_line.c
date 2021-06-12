@@ -6,20 +6,23 @@
 /*   By: mavinici <mavinici@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 11:24:44 by marcus            #+#    #+#             */
-/*   Updated: 2021/06/11 19:29:03 by mavinici         ###   ########.fr       */
+/*   Updated: 2021/06/12 13:13:22 by mavinici         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	add_line(char **str, char **line)
+static int	add_line(char **str, char **line, int pos)
 {
 	int		size;
 	char	*tmp;
 
 	size = 0;
-	while ((*str)[size] != '\n' && (*str)[size])
-		size++;
+	if (pos == -1)
+		while ((*str)[size])
+			size++;
+	else
+		size = pos;
 	if ((*str)[size] == '\0')
 	{
 		*line = ft_strdup(*str);
@@ -37,7 +40,7 @@ static int	add_line(char **str, char **line)
 	return (1);
 }
 
-static int	output(char **str, char **line, ssize_t size)
+static int	output(char **str, char **line, ssize_t size, int pos)
 {
 	if (size < 0 || !line || BUFFER_SIZE <= 0)
 		return (-1);
@@ -46,13 +49,14 @@ static int	output(char **str, char **line, ssize_t size)
 		*line = ft_strdup("");
 		return (0);
 	}
-	return (add_line(str, line));
+	return (add_line(str, line, pos));
 }
 
 int	get_next_line(int fd, char **line)
 {
 	static char		*str;
 	t_var			var;
+	int				pos;
 
 	var.buffer = malloc(BUFFER_SIZE + 1);
 	if (!var.buffer)
@@ -69,10 +73,11 @@ int	get_next_line(int fd, char **line)
 			free(str);
 			str = var.tmp;
 		}
-		if (ft_strchr(str, '\n'))
+		pos = ft_strchr(str, '\n');
+		if (pos != -1)
 			break ;
 		var.size = read(fd, var.buffer, BUFFER_SIZE);
 	}
 	free(var.buffer);
-	return (output(&str, line, var.size));
+	return (output(&str, line, var.size, pos));
 }
