@@ -39,4 +39,45 @@ int	main(void)
 > So its necessary call free after use the variable for avoid problems with leak.  
 > This function has an undefined behavior if, between two calls, the same file descriptor switches to a different file before the EOF has been reached on the first fd.
 
-> If you need read multiple files without reached the EOF, use the function bonus.
+> If you need read multiple files without reached the EOF, use the function bonus.  
+> Its necessary just change the include of header used by `get_next_line_bonus.h`
+
+```c
+#include "get_next_line_bonus.h"
+#include <stdio.h>
+#include <fcntl.h>
+#include <stdlib.h>
+
+int	main(void)
+{
+	int		fd;
+	int		fd2;
+	int		fd3;
+	char	*line;
+
+	fd = open("file", O_RDONLY);
+	fd2 = open("file3", O_RDONLY);
+	fd3 = open("file3", O_RDONLY);
+	get_next_line(fd, &line);
+	printf("%s\n", line);
+	free(line);
+	get_next_line(fd2, &line);
+	printf("%s\n", line);
+	free(line);
+	get_next_line(fd3, &line);
+	printf("%s\n", line);
+	free(line);
+	close(fd);
+	close(fd2);
+	close(fd2);
+	return (0);
+}
+```
+
+### How Compile
+
+> Compilation will be done this way :  
+> `gcc -Wall -Wextra -Werror -D BUFFER_SIZE=32
+get_next_line.c get_next_line_utils.c`  
+> You can choose any length of BUFFER_SIZE.  
+> If you want use the bonus part to be able to use multiple files descriptor, you just need add `_bonus` at the end of the name, `get_next_line_bonus.c`.
