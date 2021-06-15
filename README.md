@@ -8,6 +8,11 @@
 
 > Calling the function get_next_line in a loop will then allow you to read the text available on a file descriptor one line at a time until the EOF.
 
+>The return of this function is:
+> * 1 if found a line with \n on the end;
+> * 0 if found the last line of the file;
+> * -1 if a error is found
+
 ### How use the function 
 
 ```c
